@@ -45,7 +45,8 @@ sections:
     variant: band
     heading: Ready for the next site?
     text: Fork the repo, rename the brand in site config, and swap demo copy.
-    primaryCta:
-      label: Open work samples
-      href: /work/
+    buttons:
+      - label: Open work samples
+        style: primary
+        page: work
 ---

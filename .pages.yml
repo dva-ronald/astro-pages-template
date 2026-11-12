@@ -22,6 +22,43 @@ components:
           Examples: /about/ · /work/ · /blog/ · /blog/my-post/ · https://example.com
         placeholder: /about/
 
+  button:
+    type: object
+    label: Button
+    fields:
+      - name: label
+        label: Label
+        type: string
+        required: true
+        description: Text on the button.
+        placeholder: See the work
+      - name: style
+        label: Style
+        type: select
+        options:
+          values:
+            - name: primary
+              label: Primary (filled)
+            - name: secondary
+              label: Secondary (outline)
+        description: Visual style of the button.
+      - name: page
+        label: Page
+        type: reference
+        description: Pick an internal page from this site (preferred for internal links).
+        options:
+          collection: pages
+          search: "title,fields.slug,fields.description"
+          value: "{fields.slug}"
+          label: "{fields.title}"
+      - name: href
+        label: Custom URL
+        type: string
+        description: >-
+          Optional. External URL or manual path. If set, this overrides the Page picker.
+          Examples: https://example.com · /blog/my-post/
+        placeholder: https://example.com
+
   theme:
     type: select
     label: Theme
@@ -131,12 +168,41 @@ content:
               - name: text
                 label: Supporting text
                 type: text
-              - name: primaryCta
-                label: Primary CTA
-                component: link
-              - name: secondaryCta
-                label: Secondary CTA
-                component: link
+              - name: buttons
+                label: Buttons
+                type: object
+                list:
+                  max: 3
+                description: Add up to 3 buttons. Pick a Page and/or set a Custom URL; choose Primary or Secondary style.
+                fields:
+                  - name: label
+                    label: Label
+                    type: string
+                    required: true
+                    placeholder: See the work
+                  - name: style
+                    label: Style
+                    type: select
+                    options:
+                      values:
+                        - name: primary
+                          label: Primary (filled)
+                        - name: secondary
+                          label: Secondary (outline)
+                  - name: page
+                    label: Page
+                    type: reference
+                    description: Choose an internal page.
+                    options:
+                      collection: pages
+                      search: "title,fields.slug"
+                      value: "{fields.slug}"
+                      label: "{fields.title}"
+                  - name: href
+                    label: Custom URL
+                    type: string
+                    description: Overrides Page when set (use for external links).
+                    placeholder: https://example.com
               - name: image
                 label: Image
                 type: image
@@ -209,12 +275,41 @@ content:
               - name: text
                 label: Supporting text
                 type: text
-              - name: primaryCta
-                label: Primary CTA
-                component: link
-              - name: secondaryCta
-                label: Secondary CTA
-                component: link
+              - name: buttons
+                label: Buttons
+                type: object
+                list:
+                  max: 3
+                description: Add up to 3 buttons with style + page picker or custom URL.
+                fields:
+                  - name: label
+                    label: Label
+                    type: string
+                    required: true
+                    placeholder: Get started
+                  - name: style
+                    label: Style
+                    type: select
+                    options:
+                      values:
+                        - name: primary
+                          label: Primary (filled)
+                        - name: secondary
+                          label: Secondary (outline)
+                  - name: page
+                    label: Page
+                    type: reference
+                    description: Choose an internal page.
+                    options:
+                      collection: pages
+                      search: "title,fields.slug"
+                      value: "{fields.slug}"
+                      label: "{fields.title}"
+                  - name: href
+                    label: Custom URL
+                    type: string
+                    description: Overrides Page when set (use for external links).
+                    placeholder: https://example.com
 
           - name: faq
             label: FAQ
@@ -270,9 +365,39 @@ content:
               - name: imageAlt
                 label: Image alt
                 type: string
-              - name: cta
-                label: CTA
-                component: link
+              - name: buttons
+                label: Buttons
+                type: object
+                list:
+                  max: 2
+                description: Optional buttons (page picker or custom URL).
+                fields:
+                  - name: label
+                    label: Label
+                    type: string
+                    required: true
+                    placeholder: Learn more
+                  - name: style
+                    label: Style
+                    type: select
+                    options:
+                      values:
+                        - name: primary
+                          label: Primary (filled)
+                        - name: secondary
+                          label: Secondary (outline)
+                  - name: page
+                    label: Page
+                    type: reference
+                    options:
+                      collection: pages
+                      search: "title,fields.slug"
+                      value: "{fields.slug}"
+                      label: "{fields.title}"
+                  - name: href
+                    label: Custom URL
+                    type: string
+                    placeholder: https://example.com
 
           - name: logos
             label: Logos

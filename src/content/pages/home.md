@@ -9,12 +9,13 @@ sections:
     brand: Astra
     headline: Sites that stay clear under change.
     text: A static Astro template with Pages CMS blocks, design tokens, and named variants — ready to clone for the next simple site.
-    primaryCta:
-      label: See the blocks
-      href: /work/
-    secondaryCta:
-      label: Read the notes
-      href: /blog/
+    buttons:
+      - label: See the blocks
+        style: primary
+        page: work
+      - label: Read the notes
+        style: secondary
+        href: /blog/
   - type: logos
     theme: light
     variant: band
@@ -44,9 +45,10 @@ sections:
     text: The hero leads with the brand, one headline, one short line, and a dominant visual plane. No card clutter in the first viewport.
     image: /media/studio-atmosphere.svg
     imageAlt: Soft green fog over layered geometric planes
-    cta:
-      label: About Astra
-      href: /about/
+    buttons:
+      - label: About Astra
+        style: primary
+        page: about
   - type: blogRoll
     theme: light
     variant: default
@@ -58,10 +60,11 @@ sections:
     variant: centered
     heading: Clone it. Restyle the tokens. Keep the schema.
     text: Use this template as the shared base for AI-assisted site builds and editor-friendly content.
-    primaryCta:
-      label: View on GitHub
-      href: https://github.com/dva-ronald/astro-pages-template
-    secondaryCta:
-      label: How it works
-      href: /about/
+    buttons:
+      - label: View on GitHub
+        style: primary
+        href: https://github.com/dva-ronald/astro-pages-template
+      - label: How it works
+        style: secondary
+        page: about
 ---
