@@ -1,72 +1,392 @@
+# Pages CMS config — editor UX aimed at WordPress/ACF-style page building:
+# pick a section type → fill fields → save (Git commit). No layout code in the CMS.
+
 media:
   input: public/media
   output: /media
 
 components:
-  link:
-    type: object
-    label: Link
-    fields:
-      - name: label
-        label: Label
-        type: string
-        required: true
-        description: Button or link text shown to visitors.
-        placeholder: See the work
-      - name: href
-        label: URL
-        type: string
-        required: true
-        description: >-
-          Internal page path with a trailing slash, or a full external URL.
-          Examples: /about/ · /work/ · /blog/ · /blog/my-post/ · https://example.com
-        placeholder: /about/
+  theme:
+    type: select
+    label: Section theme
+    description: Background atmosphere for this section (like an ACF “style” choice).
+    default: light
+    options:
+      values:
+        - name: light
+          label: Light
+        - name: dark
+          label: Dark
+        - name: brand
+          label: Brand (green panel)
 
   button:
     type: object
     label: Button
     fields:
       - name: label
-        label: Label
+        label: Button text
         type: string
         required: true
-        description: Text on the button.
+        description: What visitors see on the button.
         placeholder: See the work
       - name: style
-        label: Style
+        label: Button style
         type: select
+        default: primary
+        description: Primary = filled accent. Secondary = outline.
         options:
           values:
             - name: primary
               label: Primary (filled)
             - name: secondary
               label: Secondary (outline)
-        description: Visual style of the button.
       - name: page
-        label: Page
+        label: Link to page
         type: reference
-        description: Pick an internal page from this site (preferred for internal links).
+        description: Pick an existing page (Home, About, Work, …). Preferred for internal links.
         options:
           collection: pages
           search: "title,fields.slug,fields.description"
           value: "{fields.slug}"
           label: "{fields.title}"
       - name: href
-        label: Custom URL
+        label: Or custom URL
         type: string
         description: >-
-          Optional. External URL or manual path. If set, this overrides the Page picker.
-          Examples: https://example.com · /blog/my-post/
+          Optional. Use for external sites or routes that are not Pages entries
+          (e.g. /blog/). If filled, this overrides “Link to page”.
         placeholder: https://example.com
 
-  theme:
-    type: select
-    label: Theme
-    options:
-      values:
-        - light
-        - dark
-        - brand
+  # —— Reusable section blocks (ACF flexible-content style) ——
+
+  blockHero:
+    type: object
+    label: Hero
+    description: Top of page — brand, one headline, short text, buttons, optional image.
+    fields:
+      - name: theme
+        component: theme
+      - name: variant
+        label: Layout
+        type: select
+        default: default
+        description: How the hero is arranged.
+        options:
+          values:
+            - name: default
+              label: Default (stacked)
+            - name: split
+              label: Split (text + image)
+            - name: centered
+              label: Centered
+      - name: brand
+        label: Brand name
+        type: string
+        description: Large brand signal above the headline (often the site name).
+        placeholder: Astra
+      - name: headline
+        label: Headline
+        type: string
+        required: true
+        description: Main line visitors read first.
+        placeholder: Sites that stay clear under change.
+      - name: text
+        label: Short supporting text
+        type: text
+        description: One short paragraph under the headline.
+      - name: buttons
+        label: Buttons
+        component: button
+        list:
+          max: 3
+          collapsible:
+            collapsed: true
+            summary: "{label}"
+        description: Add up to 3 buttons. Choose style + page (or a custom URL).
+      - name: image
+        label: Image
+        type: image
+        description: Optional hero image (recommended with Split layout).
+      - name: imageAlt
+        label: Image description (alt text)
+        type: string
+        description: Short description for accessibility / SEO.
+
+  blockRichText:
+    type: object
+    label: Text section
+    description: Heading + rich text body (like a free WYSIWYG content block).
+    fields:
+      - name: theme
+        component: theme
+      - name: variant
+        label: Layout
+        type: select
+        default: default
+        options:
+          values:
+            - name: default
+              label: Default width
+            - name: narrow
+              label: Narrow (reading width)
+            - name: band
+              label: Full band
+      - name: heading
+        label: Heading
+        type: string
+        placeholder: About this page
+      - name: body
+        label: Body
+        type: rich-text
+        required: true
+        description: Main written content for this section.
+
+  blockFeatures:
+    type: object
+    label: Features / cards list
+    description: A heading plus a list of title + text items (services, benefits, points).
+    fields:
+      - name: theme
+        component: theme
+      - name: variant
+        label: Layout
+        type: select
+        default: default
+        options:
+          values:
+            - name: default
+              label: Grid
+            - name: split
+              label: Split
+            - name: compact
+              label: Compact
+      - name: heading
+        label: Heading
+        type: string
+        placeholder: What you get
+      - name: text
+        label: Intro text
+        type: text
+        description: Optional short intro above the items.
+      - name: items
+        label: Feature items
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        description: Add each feature as an item (like ACF repeater rows).
+        fields:
+          - name: title
+            label: Title
+            type: string
+            required: true
+            placeholder: Token-first styling
+          - name: text
+            label: Text
+            type: text
+            required: true
+
+  blockCta:
+    type: object
+    label: Call to action
+    description: Closing band with heading, text, and buttons.
+    fields:
+      - name: theme
+        component: theme
+      - name: variant
+        label: Layout
+        type: select
+        default: centered
+        options:
+          values:
+            - name: default
+              label: Default
+            - name: band
+              label: Full band
+            - name: centered
+              label: Centered
+      - name: heading
+        label: Heading
+        type: string
+        required: true
+        placeholder: Ready to start?
+      - name: text
+        label: Supporting text
+        type: text
+      - name: buttons
+        label: Buttons
+        component: button
+        list:
+          max: 3
+          collapsible:
+            collapsed: true
+            summary: "{label}"
+        description: Add up to 3 buttons.
+
+  blockFaq:
+    type: object
+    label: FAQ
+    description: Questions & answers list (accordion-style on the site).
+    fields:
+      - name: theme
+        component: theme
+      - name: variant
+        label: Layout
+        type: select
+        default: default
+        options:
+          values:
+            - name: default
+              label: Default
+            - name: compact
+              label: Compact
+            - name: split
+              label: Split
+      - name: heading
+        label: Heading
+        type: string
+        placeholder: Frequently asked questions
+      - name: text
+        label: Intro text
+        type: text
+      - name: items
+        label: Questions
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{question}"
+        description: Add each Q&A as a row.
+        fields:
+          - name: question
+            label: Question
+            type: string
+            required: true
+            placeholder: Do I need a blog?
+          - name: answer
+            label: Answer
+            type: rich-text
+            required: true
+
+  blockImageText:
+    type: object
+    label: Image + text
+    description: Side-by-side image and copy (classic content row).
+    fields:
+      - name: theme
+        component: theme
+      - name: variant
+        label: Layout
+        type: select
+        default: default
+        description: Choose which side the image sits on.
+        options:
+          values:
+            - name: default
+              label: Image left / text right
+            - name: reversed
+              label: Text left / image right
+            - name: split
+              label: Split
+      - name: heading
+        label: Heading
+        type: string
+        required: true
+      - name: text
+        label: Text
+        type: rich-text
+      - name: image
+        label: Image
+        type: image
+        required: true
+      - name: imageAlt
+        label: Image description (alt text)
+        type: string
+      - name: buttons
+        label: Buttons
+        component: button
+        list:
+          max: 2
+          collapsible:
+            collapsed: true
+            summary: "{label}"
+        description: Optional buttons under the text.
+
+  blockLogos:
+    type: object
+    label: Logo strip
+    description: Row of partner / client names or logo images.
+    fields:
+      - name: theme
+        component: theme
+      - name: variant
+        label: Layout
+        type: select
+        default: band
+        options:
+          values:
+            - name: default
+              label: Default
+            - name: compact
+              label: Compact
+            - name: band
+              label: Band
+      - name: heading
+        label: Heading
+        type: string
+        placeholder: Trusted by teams who ship quiet sites
+      - name: items
+        label: Logos
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{name}"
+        description: Add each logo/name as a row.
+        fields:
+          - name: name
+            label: Name
+            type: string
+            required: true
+            placeholder: Northfold
+          - name: image
+            label: Logo image
+            type: image
+            description: Optional. If empty, the name is shown as text.
+
+  blockBlogRoll:
+    type: object
+    label: Blog posts
+    description: Shows the latest blog posts from the Blog collection.
+    fields:
+      - name: theme
+        component: theme
+      - name: variant
+        label: Layout
+        type: select
+        default: default
+        options:
+          values:
+            - name: default
+              label: Default
+            - name: compact
+              label: Compact
+            - name: split
+              label: Split
+      - name: heading
+        label: Heading
+        type: string
+        placeholder: From the notes
+      - name: text
+        label: Intro text
+        type: text
+      - name: limit
+        label: How many posts
+        type: number
+        default: 2
+        description: Number of latest posts to show (e.g. 2 or 3).
 
 content:
   - name: site
@@ -74,42 +394,53 @@ content:
     type: file
     path: src/data/site.json
     format: json
+    description: Global site name and SEO defaults (like WordPress “Settings → General”).
     fields:
       - name: title
         label: Site title
         type: string
         required: true
+        description: Shown in the header and browser tab.
+        placeholder: Astra
       - name: tagline
         label: Tagline
         type: string
+        description: Short line under the title in the footer.
+        placeholder: Static sites, block by block
       - name: description
-        label: Default description
+        label: Default SEO description
         type: text
         required: true
+        description: Fallback meta description when a page has none.
       - name: url
-        label: Site URL
+        label: Public site URL
         type: string
+        description: Canonical site URL (production), e.g. https://example.com
+        placeholder: https://example.com
 
   - name: navigation
     label: Navigation
     type: file
     path: src/data/navigation.json
     format: json
+    description: Header & footer menu links (like a WordPress menu).
     fields:
       - name: items
-        label: Items
+        label: Menu items
         type: object
-        list: true
-        description: Header/footer links. Prefer Page picker; use Custom URL for /blog/ or external links.
+        list:
+          collapsible:
+            collapsed: false
+            summary: "{label}"
+        description: Drag to reorder. Prefer “Link to page”; use Custom URL for /blog/ or external links.
         fields:
           - name: label
             label: Label
             type: string
             required: true
-            description: Nav label in the header/footer.
             placeholder: Work
           - name: page
-            label: Page
+            label: Link to page
             type: reference
             description: Choose an internal page.
             options:
@@ -118,10 +449,9 @@ content:
               value: "{fields.slug}"
               label: "{fields.title}"
           - name: href
-            label: Custom URL
+            label: Or custom URL
             type: string
-            description: >-
-              Optional override (e.g. /blog/ or https://…). If set, this wins over Page.
+            description: Optional. Overrides page when set (e.g. /blog/ or https://…).
             placeholder: /blog/
 
   - name: pages
@@ -130,244 +460,71 @@ content:
     path: src/content/pages
     format: yaml-frontmatter
     filename: "{primary}.md"
+    description: >-
+      Build each page from stacked sections (like ACF Flexible Content).
+      Open a page → edit Sections → Add block → fill fields → Save.
     view:
       primary: title
       sort: title
     fields:
       - name: title
-        label: Title
+        label: Page title
         type: string
         required: true
+        description: Used in the CMS list and as default browser title.
+        placeholder: Home
       - name: description
-        label: Description
+        label: SEO description
         type: text
+        description: Short summary for search engines / social previews.
       - name: slug
-        label: Slug
+        label: URL slug
         type: string
-        description: Use "home" for the homepage. Otherwise used as the URL path.
+        description: >-
+          “home” = homepage (/). Other values become /{slug}/ (e.g. about → /about/).
+        placeholder: about
+        pattern: "^[a-z0-9-]+$"
       - name: draft
         label: Draft
         type: boolean
+        description: If on, this page is hidden from the built site.
+        default: false
       - name: sections
-        label: Sections
+        label: Page sections
         type: block
+        description: >-
+          Stack blocks top-to-bottom like WordPress + ACF. Add Hero, Text, Features, FAQ, etc.
+          Drag to reorder. Collapse a block to see a short summary.
         list:
           collapsible:
             collapsed: true
-            summary: "{type}"
+            summary: "{type} · {headline}{heading}"
         blockKey: type
         blocks:
           - name: hero
             label: Hero
-            fields:
-              - name: theme
-                component: theme
-              - name: variant
-                label: Variant
-                type: select
-                options:
-                  values: [default, split, centered]
-              - name: brand
-                label: Brand
-                type: string
-              - name: headline
-                label: Headline
-                type: string
-                required: true
-              - name: text
-                label: Supporting text
-                type: text
-              - name: buttons
-                label: Buttons
-                component: button
-                list:
-                  max: 3
-                description: Add up to 3 buttons. Pick a Page and/or set a Custom URL; choose Primary or Secondary style.
-              - name: image
-                label: Image
-                type: image
-              - name: imageAlt
-                label: Image alt
-                type: string
-
+            component: blockHero
           - name: richText
-            label: Rich text
-            fields:
-              - name: theme
-                component: theme
-              - name: variant
-                label: Variant
-                type: select
-                options:
-                  values: [default, narrow, band]
-              - name: heading
-                label: Heading
-                type: string
-              - name: body
-                label: Body
-                type: rich-text
-                required: true
-
+            label: Text section
+            component: blockRichText
           - name: features
-            label: Features
-            fields:
-              - name: theme
-                component: theme
-              - name: variant
-                label: Variant
-                type: select
-                options:
-                  values: [default, split, compact]
-              - name: heading
-                label: Heading
-                type: string
-              - name: text
-                label: Supporting text
-                type: text
-              - name: items
-                label: Items
-                type: object
-                list: true
-                fields:
-                  - name: title
-                    label: Title
-                    type: string
-                    required: true
-                  - name: text
-                    label: Text
-                    type: text
-                    required: true
-
+            label: Features / cards list
+            component: blockFeatures
           - name: cta
             label: Call to action
-            fields:
-              - name: theme
-                component: theme
-              - name: variant
-                label: Variant
-                type: select
-                options:
-                  values: [default, band, centered]
-              - name: heading
-                label: Heading
-                type: string
-                required: true
-              - name: text
-                label: Supporting text
-                type: text
-              - name: buttons
-                label: Buttons
-                component: button
-                list:
-                  max: 3
-                description: Add up to 3 buttons with style + page picker or custom URL.
-
+            component: blockCta
           - name: faq
             label: FAQ
-            fields:
-              - name: theme
-                component: theme
-              - name: variant
-                label: Variant
-                type: select
-                options:
-                  values: [default, compact, split]
-              - name: heading
-                label: Heading
-                type: string
-              - name: text
-                label: Supporting text
-                type: text
-              - name: items
-                label: Items
-                type: object
-                list: true
-                fields:
-                  - name: question
-                    label: Question
-                    type: string
-                    required: true
-                  - name: answer
-                    label: Answer
-                    type: rich-text
-                    required: true
-
+            component: blockFaq
           - name: imageText
             label: Image + text
-            fields:
-              - name: theme
-                component: theme
-              - name: variant
-                label: Variant
-                type: select
-                options:
-                  values: [default, split, reversed]
-              - name: heading
-                label: Heading
-                type: string
-                required: true
-              - name: text
-                label: Text
-                type: rich-text
-              - name: image
-                label: Image
-                type: image
-                required: true
-              - name: imageAlt
-                label: Image alt
-                type: string
-              - name: buttons
-                label: Buttons
-                component: button
-                list:
-                  max: 2
-                description: Optional buttons (page picker or custom URL).
-
+            component: blockImageText
           - name: logos
-            label: Logos
-            fields:
-              - name: theme
-                component: theme
-              - name: variant
-                label: Variant
-                type: select
-                options:
-                  values: [default, compact, band]
-              - name: heading
-                label: Heading
-                type: string
-              - name: items
-                label: Items
-                type: object
-                list: true
-                fields:
-                  - name: name
-                    label: Name
-                    type: string
-                    required: true
-                  - name: image
-                    label: Logo image
-                    type: image
-
+            label: Logo strip
+            component: blockLogos
           - name: blogRoll
-            label: Blog roll
-            fields:
-              - name: theme
-                component: theme
-              - name: variant
-                label: Variant
-                type: select
-                options:
-                  values: [default, compact, split]
-              - name: heading
-                label: Heading
-                type: string
-              - name: text
-                label: Supporting text
-                type: text
-              - name: limit
-                label: Limit
-                type: number
+            label: Blog posts
+            component: blockBlogRoll
 
   - name: blog
     label: Blog
@@ -375,6 +532,7 @@ content:
     path: src/content/blog
     format: yaml-frontmatter
     filename: "{year}-{month}-{day}-{primary}.md"
+    description: Optional long-form posts (separate from block pages). Leave unused if you don’t need a blog.
     view:
       primary: title
       sort: pubDate
@@ -385,9 +543,10 @@ content:
         type: string
         required: true
       - name: description
-        label: Description
+        label: Short summary
         type: text
         required: true
+        description: Shown on the blog index and SEO.
       - name: pubDate
         label: Publish date
         type: date
@@ -398,9 +557,11 @@ content:
       - name: draft
         label: Draft
         type: boolean
+        default: false
       - name: heroImage
         label: Hero image
         type: image
       - name: body
-        label: Body
+        label: Post content
         type: rich-text
+        description: Main article body.

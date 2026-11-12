@@ -32,11 +32,23 @@ Requires **Node.js ≥ 22.23.4** (Astro 7).
 Self-hosted DvA instance: [https://pagescms.dva.dev](https://pagescms.dva.dev) (after GitHub App is configured). Hosted alternative: [app.pagescms.org](https://app.pagescms.org).
 
 1. Push this repo to GitHub (or fork/clone for a new site).
-2. Open [app.pagescms.org](https://app.pagescms.org), sign in with GitHub, and install the GitHub App on the org/account that owns the repo.
+2. Open Pages CMS, sign in with GitHub, and install the GitHub App on the org/account that owns the repo.
 3. Open the repository. Pages CMS reads `.pages.yml`.
 4. Edit **Site settings**, **Navigation**, **Pages** (block sections), and optional **Blog** posts. Saves commit back to the repo; your host rebuilds on push.
 
 Media uploads go to `public/media` (served as `/media/...`).
+
+### Edit pages like WordPress + ACF
+
+Think of **Pages → Page sections** as ACF Flexible Content:
+
+1. Open **Pages** → pick a page (e.g. Home).
+2. Under **Page sections**, click **Add** and choose a block: Hero, Text section, Features, Image + text, FAQ, Call to action, Logo strip, Blog posts.
+3. Fill the fields (layout, theme, text, buttons). Buttons can **link to an existing page** or a custom URL.
+4. Drag sections to reorder; collapse them to scan the page structure.
+5. **Save** — Pages CMS commits to Git; deploy/rebuild picks it up.
+
+**Site settings** ≈ WordPress general settings. **Navigation** ≈ a simple menu (page picker or custom URL such as `/blog/`). **Blog** is optional long-form posts, separate from block pages.
 
 ## Clone for a new site
 
@@ -46,7 +58,7 @@ Media uploads go to `public/media` (served as `/media/...`).
 4. Adjust navigation in `src/data/navigation.json`.
 5. Restyle via tokens in `src/styles/global.css` (fonts, palette, spacing) before rewriting components.
 6. Prefer trailing slashes on internal links (`/blog/`, `/work/`). The template accepts both `/blog` and `/blog/` (`trailingSlash: 'ignore'`) and normalizes outbound hrefs.
-6. Point Pages CMS at the new repo and deploy (Cloudflare Pages, Netlify, GitHub Pages, etc.).
+7. Point Pages CMS at the new repo and deploy (Cloudflare Pages, Netlify, GitHub Pages, etc.).
 
 ## Design basis
 
