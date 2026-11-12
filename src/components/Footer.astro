@@ -1,9 +1,17 @@
 ---
 import site from '../data/site.json';
 import navigation from '../data/navigation.json';
-import { normalizeHref } from '../lib/links';
+import { resolveButtonHref } from '../lib/links';
 
 const year = new Date().getFullYear();
+const navItems = navigation.items.map((item) => ({
+  label: item.label,
+  href: resolveButtonHref({
+    label: item.label,
+    page: 'page' in item ? item.page : undefined,
+    href: 'href' in item ? item.href : undefined,
+  }),
+}));
 ---
 
 <footer class="theme-dark border-t border-[var(--color-border)]">
@@ -15,9 +23,9 @@ const year = new Date().getFullYear();
     <nav aria-label="Footer">
       <ul class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-[var(--color-fg-muted)]">
         {
-          navigation.items.map((item) => (
+          navItems.map((item) => (
             <li>
-              <a class="hover:text-[var(--color-fg)]" href={normalizeHref(item.href)}>
+              <a class="hover:text-[var(--color-fg)]" href={item.href}>
                 {item.label}
               </a>
             </li>

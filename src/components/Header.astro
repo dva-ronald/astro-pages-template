@@ -1,7 +1,16 @@
 ---
 import site from '../data/site.json';
 import navigation from '../data/navigation.json';
-import { normalizeHref } from '../lib/links';
+import { resolveButtonHref } from '../lib/links';
+
+const navItems = navigation.items.map((item) => ({
+  label: item.label,
+  href: resolveButtonHref({
+    label: item.label,
+    page: 'page' in item ? item.page : undefined,
+    href: 'href' in item ? item.href : undefined,
+  }),
+}));
 ---
 
 <header class="theme-dark sticky top-0 z-40 border-b border-[var(--color-border)] backdrop-blur-md" style="background: color-mix(in oklab, var(--color-bg) 82%, transparent);">
@@ -12,9 +21,9 @@ import { normalizeHref } from '../lib/links';
     <nav aria-label="Primary">
       <ul class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-[var(--color-fg-muted)]">
         {
-          navigation.items.map((item) => (
+          navItems.map((item) => (
             <li>
-              <a class="hover:text-[var(--color-fg)] transition-colors" href={normalizeHref(item.href)}>
+              <a class="hover:text-[var(--color-fg)] transition-colors" href={item.href}>
                 {item.label}
               </a>
             </li>

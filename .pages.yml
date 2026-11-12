@@ -100,6 +100,7 @@ content:
         label: Items
         type: object
         list: true
+        description: Header/footer links. Prefer Page picker; use Custom URL for /blog/ or external links.
         fields:
           - name: label
             label: Label
@@ -107,13 +108,21 @@ content:
             required: true
             description: Nav label in the header/footer.
             placeholder: Work
+          - name: page
+            label: Page
+            type: reference
+            description: Choose an internal page.
+            options:
+              collection: pages
+              search: "title,fields.slug"
+              value: "{fields.slug}"
+              label: "{fields.title}"
           - name: href
-            label: URL
+            label: Custom URL
             type: string
-            required: true
             description: >-
-              Internal path with trailing slash, e.g. /work/ · /about/ · /blog/
-            placeholder: /work/
+              Optional override (e.g. /blog/ or https://…). If set, this wins over Page.
+            placeholder: /blog/
 
   - name: pages
     label: Pages
@@ -170,39 +179,10 @@ content:
                 type: text
               - name: buttons
                 label: Buttons
-                type: object
+                component: button
                 list:
                   max: 3
                 description: Add up to 3 buttons. Pick a Page and/or set a Custom URL; choose Primary or Secondary style.
-                fields:
-                  - name: label
-                    label: Label
-                    type: string
-                    required: true
-                    placeholder: See the work
-                  - name: style
-                    label: Style
-                    type: select
-                    options:
-                      values:
-                        - name: primary
-                          label: Primary (filled)
-                        - name: secondary
-                          label: Secondary (outline)
-                  - name: page
-                    label: Page
-                    type: reference
-                    description: Choose an internal page.
-                    options:
-                      collection: pages
-                      search: "title,fields.slug"
-                      value: "{fields.slug}"
-                      label: "{fields.title}"
-                  - name: href
-                    label: Custom URL
-                    type: string
-                    description: Overrides Page when set (use for external links).
-                    placeholder: https://example.com
               - name: image
                 label: Image
                 type: image
@@ -277,39 +257,10 @@ content:
                 type: text
               - name: buttons
                 label: Buttons
-                type: object
+                component: button
                 list:
                   max: 3
                 description: Add up to 3 buttons with style + page picker or custom URL.
-                fields:
-                  - name: label
-                    label: Label
-                    type: string
-                    required: true
-                    placeholder: Get started
-                  - name: style
-                    label: Style
-                    type: select
-                    options:
-                      values:
-                        - name: primary
-                          label: Primary (filled)
-                        - name: secondary
-                          label: Secondary (outline)
-                  - name: page
-                    label: Page
-                    type: reference
-                    description: Choose an internal page.
-                    options:
-                      collection: pages
-                      search: "title,fields.slug"
-                      value: "{fields.slug}"
-                      label: "{fields.title}"
-                  - name: href
-                    label: Custom URL
-                    type: string
-                    description: Overrides Page when set (use for external links).
-                    placeholder: https://example.com
 
           - name: faq
             label: FAQ
@@ -367,37 +318,10 @@ content:
                 type: string
               - name: buttons
                 label: Buttons
-                type: object
+                component: button
                 list:
                   max: 2
                 description: Optional buttons (page picker or custom URL).
-                fields:
-                  - name: label
-                    label: Label
-                    type: string
-                    required: true
-                    placeholder: Learn more
-                  - name: style
-                    label: Style
-                    type: select
-                    options:
-                      values:
-                        - name: primary
-                          label: Primary (filled)
-                        - name: secondary
-                          label: Secondary (outline)
-                  - name: page
-                    label: Page
-                    type: reference
-                    options:
-                      collection: pages
-                      search: "title,fields.slug"
-                      value: "{fields.slug}"
-                      label: "{fields.title}"
-                  - name: href
-                    label: Custom URL
-                    type: string
-                    placeholder: https://example.com
 
           - name: logos
             label: Logos
