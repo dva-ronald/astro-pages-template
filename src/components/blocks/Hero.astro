@@ -1,5 +1,6 @@
 ---
 import { themeClass, type Block } from '../../lib/blocks';
+import { normalizeHref } from '../../lib/links';
 
 type Props = Extract<Block, { type: 'hero' }>;
 const {
@@ -58,12 +59,12 @@ const isCentered = variant === 'centered';
             ]}
           >
             {primaryCta && (
-              <a class="btn btn-primary" href={primaryCta.href}>
+              <a class="btn btn-primary" href={normalizeHref(primaryCta.href)}>
                 {primaryCta.label}
               </a>
             )}
             {secondaryCta && (
-              <a class="btn btn-secondary" href={secondaryCta.href}>
+              <a class="btn btn-secondary" href={normalizeHref(secondaryCta.href)}>
                 {secondaryCta.label}
               </a>
             )}

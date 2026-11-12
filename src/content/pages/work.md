@@ -21,7 +21,7 @@ sections:
     imageAlt: Abstract pier lines over soft water color fields
     cta:
       label: Read a related note
-      href: /blog/tokens-before-utilities
+      href: /blog/tokens-before-utilities/
   - type: features
     theme: light
     variant: split

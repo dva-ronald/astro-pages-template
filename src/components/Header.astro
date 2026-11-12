@@ -1,6 +1,7 @@
 ---
 import site from '../data/site.json';
 import navigation from '../data/navigation.json';
+import { normalizeHref } from '../lib/links';
 ---
 
 <header class="theme-dark sticky top-0 z-40 border-b border-[var(--color-border)] backdrop-blur-md" style="background: color-mix(in oklab, var(--color-bg) 82%, transparent);">
@@ -13,7 +14,7 @@ import navigation from '../data/navigation.json';
         {
           navigation.items.map((item) => (
             <li>
-              <a class="hover:text-[var(--color-fg)] transition-colors" href={item.href}>
+              <a class="hover:text-[var(--color-fg)] transition-colors" href={normalizeHref(item.href)}>
                 {item.label}
               </a>
             </li>

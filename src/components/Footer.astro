@@ -1,6 +1,7 @@
 ---
 import site from '../data/site.json';
 import navigation from '../data/navigation.json';
+import { normalizeHref } from '../lib/links';
 
 const year = new Date().getFullYear();
 ---
@@ -16,7 +17,7 @@ const year = new Date().getFullYear();
         {
           navigation.items.map((item) => (
             <li>
-              <a class="hover:text-[var(--color-fg)]" href={item.href}>
+              <a class="hover:text-[var(--color-fg)]" href={normalizeHref(item.href)}>
                 {item.label}
               </a>
             </li>

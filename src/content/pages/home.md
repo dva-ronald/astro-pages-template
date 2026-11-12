@@ -11,10 +11,10 @@ sections:
     text: A static Astro template with Pages CMS blocks, design tokens, and named variants — ready to clone for the next simple site.
     primaryCta:
       label: See the blocks
-      href: /work
+      href: /work/
     secondaryCta:
       label: Read the notes
-      href: /blog
+      href: /blog/
   - type: logos
     theme: light
     variant: band
@@ -46,7 +46,7 @@ sections:
     imageAlt: Soft green fog over layered geometric planes
     cta:
       label: About Astra
-      href: /about
+      href: /about/
   - type: blogRoll
     theme: light
     variant: default
@@ -63,5 +63,5 @@ sections:
       href: https://github.com/dva-ronald/astro-pages-template
     secondaryCta:
       label: How it works
-      href: /about
+      href: /about/
 ---

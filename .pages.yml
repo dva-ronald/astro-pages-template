@@ -11,10 +11,16 @@ components:
         label: Label
         type: string
         required: true
+        description: Button or link text shown to visitors.
+        placeholder: See the work
       - name: href
         label: URL
         type: string
         required: true
+        description: >-
+          Internal page path with a trailing slash, or a full external URL.
+          Examples: /about/ · /work/ · /blog/ · /blog/my-post/ · https://example.com
+        placeholder: /about/
 
   theme:
     type: select
@@ -62,10 +68,15 @@ content:
             label: Label
             type: string
             required: true
+            description: Nav label in the header/footer.
+            placeholder: Work
           - name: href
             label: URL
             type: string
             required: true
+            description: >-
+              Internal path with trailing slash, e.g. /work/ · /about/ · /blog/
+            placeholder: /work/
 
   - name: pages
     label: Pages

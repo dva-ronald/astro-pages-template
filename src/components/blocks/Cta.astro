@@ -1,5 +1,6 @@
 ---
 import { themeClass, type Block } from '../../lib/blocks';
+import { normalizeHref } from '../../lib/links';
 
 type Props = Extract<Block, { type: 'cta' }>;
 const {
@@ -28,12 +29,12 @@ const band = variant === 'band';
       (primaryCta || secondaryCta) && (
         <div class:list={['mt-8 flex flex-wrap gap-3', centered && 'justify-center']}>
           {primaryCta && (
-            <a class="btn btn-primary" href={primaryCta.href}>
+            <a class="btn btn-primary" href={normalizeHref(primaryCta.href)}>
               {primaryCta.label}
             </a>
           )}
           {secondaryCta && (
-            <a class="btn btn-secondary" href={secondaryCta.href}>
+            <a class="btn btn-secondary" href={normalizeHref(secondaryCta.href)}>
               {secondaryCta.label}
             </a>
           )}

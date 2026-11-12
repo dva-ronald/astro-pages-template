@@ -1,5 +1,6 @@
 ---
 import { themeClass, type Block } from '../../lib/blocks';
+import { normalizeHref } from '../../lib/links';
 import { renderMarkdown } from '../../lib/markdown';
 
 type Props = Extract<Block, { type: 'imageText' }>;
@@ -35,7 +36,7 @@ const reversed = variant === 'reversed';
       }
       {
         cta && (
-          <a class="btn btn-primary mt-7" href={cta.href}>
+          <a class="btn btn-primary mt-7" href={normalizeHref(cta.href)}>
             {cta.label}
           </a>
         )

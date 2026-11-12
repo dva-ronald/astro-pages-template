@@ -47,5 +47,5 @@ sections:
     text: Fork the repo, rename the brand in site config, and swap demo copy.
     primaryCta:
       label: Open work samples
-      href: /work
+      href: /work/
 ---
