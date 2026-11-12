@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlockRenderer from '../components/BlockRenderer.astro';
+
+const pages = await getCollection('pages', ({ data }) => !data.draft);
+const home =
+  pages.find((page) => page.id === 'home' || page.data.slug === 'home') ??
+  pages.find((page) => page.data.slug === '/' || page.data.slug === 'index');
+
+if (!home) {
+  throw new Error('Missing home page content at src/content/pages/home.md');
+}
+---
+
+<BaseLayout title={home.data.title === 'Home' ? undefined : home.data.title} description={home.data.description}>
+  <BlockRenderer sections={home.data.sections} />
+</BaseLayout>

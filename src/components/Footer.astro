@@ -1,0 +1,31 @@
+---
+import site from '../data/site.json';
+import navigation from '../data/navigation.json';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="theme-dark border-t border-[var(--color-border)]">
+  <div class="site-shell py-12 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+    <div>
+      <p class="font-display text-2xl">{site.title}</p>
+      {site.tagline && <p class="mt-2 text-[var(--color-fg-muted)]">{site.tagline}</p>}
+    </div>
+    <nav aria-label="Footer">
+      <ul class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-[var(--color-fg-muted)]">
+        {
+          navigation.items.map((item) => (
+            <li>
+              <a class="hover:text-[var(--color-fg)]" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+  <div class="site-shell pb-8 text-sm text-[var(--color-fg-muted)]">
+    © {year} {site.title}. Template demo content.
+  </div>
+</footer>

@@ -1,0 +1,53 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article>
+    <header class="theme-dark section-pad">
+      <div class="site-shell-narrow motion-fade-up">
+        <p class="text-sm text-[var(--color-fg-muted)] mb-4">
+          <time datetime={post.data.pubDate.toISOString()}>
+            {post.data.pubDate.toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </time>
+        </p>
+        <h1 class="text-4xl md:text-5xl text-balance">{post.data.title}</h1>
+        <p class="mt-4 text-lg text-[var(--color-fg-muted)]">{post.data.description}</p>
+      </div>
+    </header>
+    {
+      post.data.heroImage && (
+        <div class="theme-light">
+          <div class="site-shell pt-10">
+            <img
+              src={post.data.heroImage}
+              alt=""
+              class="w-full max-h-[28rem] object-cover rounded-[var(--radius-lg)]"
+            />
+          </div>
+        </div>
+      )
+    }
+    <section class="theme-light section-pad">
+      <div class="site-shell-narrow prose-block motion-fade-in">
+        <Content />
+      </div>
+    </section>
+  </article>
+</BaseLayout>

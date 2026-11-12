@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" fill="none" role="img" aria-label="">
+  <defs>
+    <linearGradient id="sky" x1="80" y1="40" x2="880" y2="680" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1c3f34"/>
+      <stop offset="0.45" stop-color="#152820"/>
+      <stop offset="1" stop-color="#0c1411"/>
+    </linearGradient>
+    <linearGradient id="fog" x1="120" y1="520" x2="820" y2="200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b6f04a" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#7ec8a3" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="720" fill="url(#sky)"/>
+  <path d="M-40 480C180 360 320 560 520 420C720 280 820 360 1000 250V720H-40V480Z" fill="url(#fog)" opacity="0.85"/>
+  <path d="M120 160H420" stroke="#eef3ef" stroke-opacity="0.25" stroke-width="2"/>
+  <path d="M120 200H300" stroke="#b6f04a" stroke-opacity="0.7" stroke-width="3"/>
+  <circle cx="700" cy="190" r="86" fill="#b6f04a" fill-opacity="0.18"/>
+  <circle cx="700" cy="190" r="42" fill="#b6f04a" fill-opacity="0.35"/>
+  <path d="M560 520L820 390L840 560L600 640L560 520Z" fill="#eef3ef" fill-opacity="0.08" stroke="#eef3ef" stroke-opacity="0.35"/>
+</svg>

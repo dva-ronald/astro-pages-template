@@ -1,0 +1,48 @@
+---
+import { themeClass, type Block } from '../../lib/blocks';
+import { renderMarkdown } from '../../lib/markdown';
+
+type Props = Extract<Block, { type: 'imageText' }>;
+const {
+  theme = 'light',
+  variant = 'default',
+  heading,
+  text,
+  image,
+  imageAlt = '',
+  cta,
+} = Astro.props;
+
+const reversed = variant === 'reversed';
+---
+
+<section class:list={[themeClass(theme), 'section-pad']}>
+  <div
+    class:list={[
+      'site-shell grid gap-10 lg:grid-cols-2 lg:gap-14 items-center',
+      reversed && '[&>*:first-child]:lg:order-2',
+    ]}
+  >
+    <div class="motion-fade-up">
+      <h2 class="text-3xl md:text-4xl text-balance">{heading}</h2>
+      {
+        text && (
+          <div
+            class="prose-block mt-4 text-[var(--color-fg-muted)]"
+            set:html={renderMarkdown(text)}
+          />
+        )
+      }
+      {
+        cta && (
+          <a class="btn btn-primary mt-7" href={cta.href}>
+            {cta.label}
+          </a>
+        )
+      }
+    </div>
+    <div class="motion-fade-in relative min-h-[16rem] overflow-hidden rounded-[var(--radius-lg)]">
+      <img src={image} alt={imageAlt} class="h-full w-full object-cover min-h-[16rem]" loading="lazy" />
+    </div>
+  </div>
+</section>

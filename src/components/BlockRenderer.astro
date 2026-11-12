@@ -1,0 +1,42 @@
+---
+import type { Block } from '../lib/blocks';
+import Hero from './blocks/Hero.astro';
+import RichText from './blocks/RichText.astro';
+import Features from './blocks/Features.astro';
+import Cta from './blocks/Cta.astro';
+import Faq from './blocks/Faq.astro';
+import ImageText from './blocks/ImageText.astro';
+import Logos from './blocks/Logos.astro';
+import BlogRoll from './blocks/BlogRoll.astro';
+
+interface Props {
+  sections: Block[];
+}
+
+const { sections } = Astro.props;
+---
+
+{
+  sections.map((section) => {
+    switch (section.type) {
+      case 'hero':
+        return <Hero {...section} />;
+      case 'richText':
+        return <RichText {...section} />;
+      case 'features':
+        return <Features {...section} />;
+      case 'cta':
+        return <Cta {...section} />;
+      case 'faq':
+        return <Faq {...section} />;
+      case 'imageText':
+        return <ImageText {...section} />;
+      case 'logos':
+        return <Logos {...section} />;
+      case 'blogRoll':
+        return <BlogRoll {...section} />;
+      default:
+        return null;
+    }
+  })
+}

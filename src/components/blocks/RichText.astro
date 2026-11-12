@@ -1,0 +1,17 @@
+---
+import { themeClass, type Block } from '../../lib/blocks';
+import { renderMarkdown } from '../../lib/markdown';
+
+type Props = Extract<Block, { type: 'richText' }>;
+const { theme = 'light', variant = 'default', heading, body } = Astro.props;
+const html = renderMarkdown(body);
+const narrow = variant === 'narrow';
+const band = variant === 'band';
+---
+
+<section class:list={[themeClass(theme), 'section-pad', band && 'border-y border-[var(--color-border)]']}>
+  <div class:list={[narrow ? 'site-shell-narrow' : 'site-shell', 'motion-fade-up']}>
+    {heading && <h2 class="text-3xl md:text-4xl mb-6 text-balance">{heading}</h2>}
+    <div class="prose-block text-[var(--color-fg-muted)]" set:html={html} />
+  </div>
+</section>

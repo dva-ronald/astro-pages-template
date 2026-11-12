@@ -1,0 +1,25 @@
+---
+import site from '../data/site.json';
+import navigation from '../data/navigation.json';
+---
+
+<header class="theme-dark sticky top-0 z-40 border-b border-[var(--color-border)] backdrop-blur-md" style="background: color-mix(in oklab, var(--color-bg) 82%, transparent);">
+  <div class="site-shell flex items-center justify-between gap-6 py-4">
+    <a href="/" class="font-display text-xl tracking-tight no-underline">
+      {site.title}
+    </a>
+    <nav aria-label="Primary">
+      <ul class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-[var(--color-fg-muted)]">
+        {
+          navigation.items.map((item) => (
+            <li>
+              <a class="hover:text-[var(--color-fg)] transition-colors" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

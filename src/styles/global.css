@@ -1,0 +1,268 @@
+@import "tailwindcss";
+
+/* Design tokens — restyle a site by editing these first */
+:root {
+  --font-display: "Bricolage Grotesque", Georgia, serif;
+  --font-body: "Figtree", ui-sans-serif, sans-serif;
+
+  --space-section: clamp(4.5rem, 10vw, 7.5rem);
+  --space-gutter: clamp(1.25rem, 4vw, 2rem);
+  --radius-sm: 0.35rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-motion: 700ms;
+
+  /* Base palette (theme-light defaults) */
+  --color-bg: #eef3ef;
+  --color-bg-elevated: #f7faf7;
+  --color-fg: #101814;
+  --color-fg-muted: #4a5a52;
+  --color-border: color-mix(in oklab, var(--color-fg) 12%, transparent);
+  --color-accent: #b6f04a;
+  --color-accent-fg: #132016;
+  --color-brand: #1c3f34;
+  --color-brand-fg: #f2f7f3;
+  --color-glow: color-mix(in oklab, #7ec8a3 35%, transparent);
+
+  --max-width: 72rem;
+  --max-width-narrow: 42rem;
+}
+
+/* Parent section themes — apply on section wrappers */
+.theme-light {
+  --color-bg: #eef3ef;
+  --color-bg-elevated: #f7faf7;
+  --color-fg: #101814;
+  --color-fg-muted: #4a5a52;
+  --color-border: color-mix(in oklab, var(--color-fg) 12%, transparent);
+  --color-accent: #b6f04a;
+  --color-accent-fg: #132016;
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+}
+
+.theme-dark {
+  --color-bg: #0c1411;
+  --color-bg-elevated: #15201b;
+  --color-fg: #eef3ef;
+  --color-fg-muted: #9aafa3;
+  --color-border: color-mix(in oklab, var(--color-fg) 14%, transparent);
+  --color-accent: #b6f04a;
+  --color-accent-fg: #132016;
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+}
+
+.theme-brand {
+  --color-bg: #1c3f34;
+  --color-bg-elevated: #245044;
+  --color-fg: #f2f7f3;
+  --color-fg-muted: #b7cec3;
+  --color-border: color-mix(in oklab, var(--color-fg) 16%, transparent);
+  --color-accent: #b6f04a;
+  --color-accent-fg: #132016;
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+}
+
+@theme inline {
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --color-bg: var(--color-bg);
+  --color-bg-elevated: var(--color-bg-elevated);
+  --color-fg: var(--color-fg);
+  --color-fg-muted: var(--color-fg-muted);
+  --color-border: var(--color-border);
+  --color-accent: var(--color-accent);
+  --color-accent-fg: var(--color-accent-fg);
+  --color-brand: var(--color-brand);
+  --color-brand-fg: var(--color-brand-fg);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--color-fg);
+    background:
+      radial-gradient(1200px 600px at 10% -10%, var(--color-glow), transparent 55%),
+      radial-gradient(900px 500px at 90% 0%, color-mix(in oklab, var(--color-accent) 18%, transparent), transparent 50%),
+      var(--color-bg);
+    background-attachment: fixed;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .site-shell {
+    width: min(100% - (var(--space-gutter) * 2), var(--max-width));
+    margin-inline: auto;
+  }
+
+  .site-shell-narrow {
+    width: min(100% - (var(--space-gutter) * 2), var(--max-width-narrow));
+    margin-inline: auto;
+  }
+
+  .section-pad {
+    padding-block: var(--space-section);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.85rem;
+    padding: 0.7rem 1.25rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      transform var(--duration-motion) var(--ease-out),
+      background-color 200ms ease,
+      color 200ms ease,
+      border-color 200ms ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-accent-fg);
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-fg);
+  }
+
+  .btn-secondary:hover {
+    border-color: color-mix(in oklab, var(--color-fg) 35%, transparent);
+  }
+
+  .prose-block {
+    font-size: 1.0625rem;
+  }
+
+  .prose-block > * + * {
+    margin-top: 1rem;
+  }
+
+  .prose-block h2,
+  .prose-block h3 {
+    margin-top: 1.75rem;
+  }
+
+  .prose-block a {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  .prose-block ul,
+  .prose-block ol {
+    padding-left: 1.25rem;
+  }
+
+  .prose-block li + li {
+    margin-top: 0.4rem;
+  }
+
+  /* Motion utilities */
+  .motion-fade-up {
+    animation: fade-up var(--duration-motion) var(--ease-out) both;
+  }
+
+  .motion-fade-in {
+    animation: fade-in calc(var(--duration-motion) + 100ms) var(--ease-out) both;
+  }
+
+  .motion-stagger > * {
+    animation: fade-up var(--duration-motion) var(--ease-out) both;
+  }
+
+  .motion-stagger > *:nth-child(1) {
+    animation-delay: 40ms;
+  }
+  .motion-stagger > *:nth-child(2) {
+    animation-delay: 120ms;
+  }
+  .motion-stagger > *:nth-child(3) {
+    animation-delay: 200ms;
+  }
+  .motion-stagger > *:nth-child(4) {
+    animation-delay: 280ms;
+  }
+  .motion-stagger > *:nth-child(5) {
+    animation-delay: 360ms;
+  }
+  .motion-stagger > *:nth-child(6) {
+    animation-delay: 440ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .motion-fade-up,
+    .motion-fade-in,
+    .motion-stagger > * {
+      animation: none;
+    }
+
+    .btn:hover {
+      transform: none;
+    }
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,100 @@
+---
+import { themeClass, type Block } from '../../lib/blocks';
+
+type Props = Extract<Block, { type: 'hero' }>;
+const {
+  theme = 'dark',
+  variant = 'default',
+  brand = 'Astra',
+  headline,
+  text,
+  primaryCta,
+  secondaryCta,
+  image,
+  imageAlt = '',
+} = Astro.props;
+
+const isSplit = variant === 'split';
+const isCentered = variant === 'centered';
+---
+
+<section class:list={[themeClass(theme), 'relative overflow-hidden section-pad']}>
+  <div
+    class="pointer-events-none absolute inset-0 opacity-70"
+    aria-hidden="true"
+    style="background:
+      radial-gradient(ellipse 80% 60% at 70% 20%, color-mix(in oklab, var(--color-accent) 22%, transparent), transparent 60%),
+      linear-gradient(160deg, transparent 40%, color-mix(in oklab, var(--color-brand) 35%, transparent));"
+  >
+  </div>
+
+  <div
+    class:list={[
+      'site-shell relative grid gap-10 items-center',
+      isSplit ? 'lg:grid-cols-[1.05fr_0.95fr]' : '',
+      isCentered ? 'text-center justify-items-center max-w-4xl mx-auto' : '',
+    ]}
+  >
+    <div class:list={['motion-fade-up', isCentered ? 'max-w-3xl' : 'max-w-2xl']}>
+      <p class="font-display text-3xl sm:text-4xl md:text-5xl text-[var(--color-accent)] mb-5">
+        {brand}
+      </p>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-balance">
+        {headline}
+      </h1>
+      {
+        text && (
+          <p class="mt-5 text-lg md:text-xl text-[var(--color-fg-muted)] max-w-xl text-pretty motion-fade-in">
+            {text}
+          </p>
+        )
+      }
+      {
+        (primaryCta || secondaryCta) && (
+          <div
+            class:list={[
+              'mt-8 flex flex-wrap gap-3',
+              isCentered ? 'justify-center' : '',
+            ]}
+          >
+            {primaryCta && (
+              <a class="btn btn-primary" href={primaryCta.href}>
+                {primaryCta.label}
+              </a>
+            )}
+            {secondaryCta && (
+              <a class="btn btn-secondary" href={secondaryCta.href}>
+                {secondaryCta.label}
+              </a>
+            )}
+          </div>
+        )
+      }
+    </div>
+
+    {
+      (isSplit || image) && (
+        <div class="motion-fade-in relative min-h-[18rem] lg:min-h-[26rem] rounded-[var(--radius-lg)] overflow-hidden">
+          {image ? (
+            <img
+              src={image}
+              alt={imageAlt}
+              class="absolute inset-0 h-full w-full object-cover"
+              loading="eager"
+            />
+          ) : (
+            <div
+              class="absolute inset-0"
+              style="background:
+                linear-gradient(145deg, color-mix(in oklab, var(--color-accent) 55%, transparent), transparent 55%),
+                url('/media/hero-plane.svg') center/cover no-repeat,
+                var(--color-bg-elevated);"
+              role="img"
+              aria-label="Abstract studio atmosphere"
+            />
+          )}
+        </div>
+      )
+    }
+  </div>
+</section>
