@@ -27,7 +27,21 @@ Node.js ≥ 22.23.4 required.
 - Blog (optional): `src/content/blog/*.md`
 - Site + nav: `src/data/site.json`, `src/data/navigation.json`
 
+## Editor model (WordPress/ACF analogy)
+
+| WordPress / ACF | This template |
+| --- | --- |
+| Pages | Pages CMS **Pages** collection |
+| Flexible Content rows | **Page sections** (`type: block` list) |
+| ACF field groups | Block components in `.pages.yml` (`blockHero`, …) |
+| ACF repeater | Object `list` (features items, FAQ items, buttons) |
+| Menus | **Navigation** file (+ page reference) |
+| Media library | `public/media` via Pages CMS media |
+
+Keep editor labels human (“Layout”, “Button text”, “Link to page”). Prefer `reference` + optional custom URL over free-form paths when possible.
+
 ## Docs
 
 - Astro: https://docs.astro.build
 - Pages CMS: https://pagescms.org/docs/
+- Editing guide: see README “Edit pages like WordPress + ACF”
