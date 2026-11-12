@@ -50,6 +50,8 @@ Think of **Pages → Page sections** as ACF Flexible Content:
 
 **Site settings** ≈ WordPress general settings. **Navigation** ≈ a simple menu (page picker or custom URL such as `/blog/`). **Blog** is optional long-form posts, separate from block pages.
 
+**Blokken leren:** zie [docs/editor-blokken.md](docs/editor-blokken.md) — wanneer welk blok, en welke instellingen (NL cheatsheet).
+
 ## Clone for a new site
 
 1. Use this repo as a template / fork / `git clone`.
