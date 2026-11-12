@@ -16,6 +16,8 @@ Node.js ≥ 22.23.4 required.
 2. Prefer a new **variant** on an existing block over a one-off layout.
 3. **Restyle via tokens** in `src/styles/global.css` and parent themes (`theme-light` / `theme-dark` / `theme-brand`) before rewriting components.
 4. Do not put long Tailwind utility strings in CMS content.
+5. Internal links: prefer trailing slashes (`/blog/`, `/about/`). `normalizeHref()` in `src/lib/links.ts` adds them when rendering; `trailingSlash: 'ignore'` accepts both forms.
+6. CTAs use a `buttons` list (label + style + page reference and/or custom `href`), not fixed primary/secondary fields. Legacy `primaryCta` / `secondaryCta` / `cta` still render via `resolveButtons()`.
 5. When adding a block: update `src/lib/blocks.ts`, `.pages.yml`, `src/components/blocks/*`, and `BlockRenderer.astro` together.
 
 ## Content map

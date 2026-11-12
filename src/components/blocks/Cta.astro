@@ -1,5 +1,6 @@
 ---
 import { themeClass, type Block } from '../../lib/blocks';
+import { buttonClass, resolveButtons } from '../../lib/links';
 
 type Props = Extract<Block, { type: 'cta' }>;
 const {
@@ -7,10 +8,12 @@ const {
   variant = 'default',
   heading,
   text,
+  buttons,
   primaryCta,
   secondaryCta,
 } = Astro.props;
 
+const ctaButtons = resolveButtons({ buttons, primaryCta, secondaryCta });
 const centered = variant === 'centered' || variant === 'default';
 const band = variant === 'band';
 ---
@@ -25,18 +28,13 @@ const band = variant === 'band';
     <h2 class="text-3xl md:text-5xl text-balance">{heading}</h2>
     {text && <p class="mt-4 text-lg text-[var(--color-fg-muted)]">{text}</p>}
     {
-      (primaryCta || secondaryCta) && (
+      ctaButtons.length > 0 && (
         <div class:list={['mt-8 flex flex-wrap gap-3', centered && 'justify-center']}>
-          {primaryCta && (
-            <a class="btn btn-primary" href={primaryCta.href}>
-              {primaryCta.label}
+          {ctaButtons.map((btn) => (
+            <a class={buttonClass(btn.style)} href={btn.href}>
+              {btn.label}
             </a>
-          )}
-          {secondaryCta && (
-            <a class="btn btn-secondary" href={secondaryCta.href}>
-              {secondaryCta.label}
-            </a>
-          )}
+          ))}
         </div>
       )
     }

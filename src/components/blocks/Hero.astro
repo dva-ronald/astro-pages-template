@@ -1,5 +1,6 @@
 ---
 import { themeClass, type Block } from '../../lib/blocks';
+import { buttonClass, resolveButtons } from '../../lib/links';
 
 type Props = Extract<Block, { type: 'hero' }>;
 const {
@@ -8,12 +9,14 @@ const {
   brand = 'Astra',
   headline,
   text,
+  buttons,
   primaryCta,
   secondaryCta,
   image,
   imageAlt = '',
 } = Astro.props;
 
+const ctaButtons = resolveButtons({ buttons, primaryCta, secondaryCta });
 const isSplit = variant === 'split';
 const isCentered = variant === 'centered';
 ---
@@ -50,23 +53,18 @@ const isCentered = variant === 'centered';
         )
       }
       {
-        (primaryCta || secondaryCta) && (
+        ctaButtons.length > 0 && (
           <div
             class:list={[
               'mt-8 flex flex-wrap gap-3',
               isCentered ? 'justify-center' : '',
             ]}
           >
-            {primaryCta && (
-              <a class="btn btn-primary" href={primaryCta.href}>
-                {primaryCta.label}
+            {ctaButtons.map((btn) => (
+              <a class={buttonClass(btn.style)} href={btn.href}>
+                {btn.label}
               </a>
-            )}
-            {secondaryCta && (
-              <a class="btn btn-secondary" href={secondaryCta.href}>
-                {secondaryCta.label}
-              </a>
-            )}
+            ))}
           </div>
         )
       }

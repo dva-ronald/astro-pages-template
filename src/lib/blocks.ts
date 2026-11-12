@@ -8,6 +8,15 @@ const linkSchema = z.object({
   href: z.string(),
 });
 
+const buttonSchema = z.object({
+  label: z.string(),
+  style: z.enum(['primary', 'secondary']).default('primary'),
+  /** Page slug from Pages CMS `reference` (collection: pages) */
+  page: z.string().optional(),
+  /** Custom / external URL; overrides `page` when set */
+  href: z.string().optional(),
+});
+
 export const heroBlockSchema = z.object({
   type: z.literal('hero'),
   theme: themeSchema.optional(),
@@ -15,7 +24,11 @@ export const heroBlockSchema = z.object({
   brand: z.string().optional(),
   headline: z.string(),
   text: z.string().optional(),
+  /** Prefer this list (add/remove buttons in CMS). */
+  buttons: z.array(buttonSchema).max(3).optional(),
+  /** @deprecated Use `buttons` */
   primaryCta: linkSchema.optional(),
+  /** @deprecated Use `buttons` */
   secondaryCta: linkSchema.optional(),
   image: z.string().optional(),
   imageAlt: z.string().optional(),
@@ -51,7 +64,10 @@ export const ctaBlockSchema = z.object({
   variant: z.enum(['default', 'band', 'centered']).default('default'),
   heading: z.string(),
   text: z.string().optional(),
+  buttons: z.array(buttonSchema).max(3).optional(),
+  /** @deprecated Use `buttons` */
   primaryCta: linkSchema.optional(),
+  /** @deprecated Use `buttons` */
   secondaryCta: linkSchema.optional(),
 });
 
@@ -79,6 +95,8 @@ export const imageTextBlockSchema = z.object({
   text: z.string().optional(),
   image: z.string(),
   imageAlt: z.string().optional(),
+  buttons: z.array(buttonSchema).max(2).optional(),
+  /** @deprecated Use `buttons` */
   cta: linkSchema.optional(),
 });
 

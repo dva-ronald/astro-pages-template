@@ -29,6 +29,8 @@ Requires **Node.js ≥ 22.23.4** (Astro 7).
 
 ## Pages CMS setup
 
+Self-hosted DvA instance: [https://pagescms.dva.dev](https://pagescms.dva.dev) (after GitHub App is configured). Hosted alternative: [app.pagescms.org](https://app.pagescms.org).
+
 1. Push this repo to GitHub (or fork/clone for a new site).
 2. Open [app.pagescms.org](https://app.pagescms.org), sign in with GitHub, and install the GitHub App on the org/account that owns the repo.
 3. Open the repository. Pages CMS reads `.pages.yml`.
@@ -43,6 +45,7 @@ Media uploads go to `public/media` (served as `/media/...`).
 3. Replace demo pages in `src/content/pages` and posts in `src/content/blog`.
 4. Adjust navigation in `src/data/navigation.json`.
 5. Restyle via tokens in `src/styles/global.css` (fonts, palette, spacing) before rewriting components.
+6. Prefer trailing slashes on internal links (`/blog/`, `/work/`). The template accepts both `/blog` and `/blog/` (`trailingSlash: 'ignore'`) and normalizes outbound hrefs.
 6. Point Pages CMS at the new repo and deploy (Cloudflare Pages, Netlify, GitHub Pages, etc.).
 
 ## Design basis

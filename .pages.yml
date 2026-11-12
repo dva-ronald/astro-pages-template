@@ -11,10 +11,53 @@ components:
         label: Label
         type: string
         required: true
+        description: Button or link text shown to visitors.
+        placeholder: See the work
       - name: href
         label: URL
         type: string
         required: true
+        description: >-
+          Internal page path with a trailing slash, or a full external URL.
+          Examples: /about/ · /work/ · /blog/ · /blog/my-post/ · https://example.com
+        placeholder: /about/
+
+  button:
+    type: object
+    label: Button
+    fields:
+      - name: label
+        label: Label
+        type: string
+        required: true
+        description: Text on the button.
+        placeholder: See the work
+      - name: style
+        label: Style
+        type: select
+        options:
+          values:
+            - name: primary
+              label: Primary (filled)
+            - name: secondary
+              label: Secondary (outline)
+        description: Visual style of the button.
+      - name: page
+        label: Page
+        type: reference
+        description: Pick an internal page from this site (preferred for internal links).
+        options:
+          collection: pages
+          search: "title,fields.slug,fields.description"
+          value: "{fields.slug}"
+          label: "{fields.title}"
+      - name: href
+        label: Custom URL
+        type: string
+        description: >-
+          Optional. External URL or manual path. If set, this overrides the Page picker.
+          Examples: https://example.com · /blog/my-post/
+        placeholder: https://example.com
 
   theme:
     type: select
@@ -57,15 +100,29 @@ content:
         label: Items
         type: object
         list: true
+        description: Header/footer links. Prefer Page picker; use Custom URL for /blog/ or external links.
         fields:
           - name: label
             label: Label
             type: string
             required: true
+            description: Nav label in the header/footer.
+            placeholder: Work
+          - name: page
+            label: Page
+            type: reference
+            description: Choose an internal page.
+            options:
+              collection: pages
+              search: "title,fields.slug"
+              value: "{fields.slug}"
+              label: "{fields.title}"
           - name: href
-            label: URL
+            label: Custom URL
             type: string
-            required: true
+            description: >-
+              Optional override (e.g. /blog/ or https://…). If set, this wins over Page.
+            placeholder: /blog/
 
   - name: pages
     label: Pages
@@ -120,12 +177,12 @@ content:
               - name: text
                 label: Supporting text
                 type: text
-              - name: primaryCta
-                label: Primary CTA
-                component: link
-              - name: secondaryCta
-                label: Secondary CTA
-                component: link
+              - name: buttons
+                label: Buttons
+                component: button
+                list:
+                  max: 3
+                description: Add up to 3 buttons. Pick a Page and/or set a Custom URL; choose Primary or Secondary style.
               - name: image
                 label: Image
                 type: image
@@ -198,12 +255,12 @@ content:
               - name: text
                 label: Supporting text
                 type: text
-              - name: primaryCta
-                label: Primary CTA
-                component: link
-              - name: secondaryCta
-                label: Secondary CTA
-                component: link
+              - name: buttons
+                label: Buttons
+                component: button
+                list:
+                  max: 3
+                description: Add up to 3 buttons with style + page picker or custom URL.
 
           - name: faq
             label: FAQ
@@ -259,9 +316,12 @@ content:
               - name: imageAlt
                 label: Image alt
                 type: string
-              - name: cta
-                label: CTA
-                component: link
+              - name: buttons
+                label: Buttons
+                component: button
+                list:
+                  max: 2
+                description: Optional buttons (page picker or custom URL).
 
           - name: logos
             label: Logos

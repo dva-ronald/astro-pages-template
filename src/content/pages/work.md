@@ -19,9 +19,10 @@ sections:
       **Stack cue:** Astro static output, Pages CMS for editors, tokens tuned to a coastal green.
     image: /media/project-pier.svg
     imageAlt: Abstract pier lines over soft water color fields
-    cta:
-      label: Read a related note
-      href: /blog/tokens-before-utilities
+    buttons:
+      - label: Read a related note
+        style: primary
+        href: /blog/tokens-before-utilities/
   - type: features
     theme: light
     variant: split
@@ -55,7 +56,8 @@ sections:
     variant: centered
     heading: Use these pages as a visual checklist
     text: When restyling, walk homepage → about → work → blog and confirm tokens still hold.
-    primaryCta:
-      label: Back home
-      href: /
+    buttons:
+      - label: Back home
+        style: primary
+        page: home
 ---

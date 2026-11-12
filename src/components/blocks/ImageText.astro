@@ -1,5 +1,6 @@
 ---
 import { themeClass, type Block } from '../../lib/blocks';
+import { buttonClass, resolveButtons } from '../../lib/links';
 import { renderMarkdown } from '../../lib/markdown';
 
 type Props = Extract<Block, { type: 'imageText' }>;
@@ -10,9 +11,11 @@ const {
   text,
   image,
   imageAlt = '',
+  buttons,
   cta,
 } = Astro.props;
 
+const ctaButtons = resolveButtons({ buttons, cta });
 const reversed = variant === 'reversed';
 ---
 
@@ -34,10 +37,14 @@ const reversed = variant === 'reversed';
         )
       }
       {
-        cta && (
-          <a class="btn btn-primary mt-7" href={cta.href}>
-            {cta.label}
-          </a>
+        ctaButtons.length > 0 && (
+          <div class="mt-7 flex flex-wrap gap-3">
+            {ctaButtons.map((btn) => (
+              <a class={buttonClass(btn.style)} href={btn.href}>
+                {btn.label}
+              </a>
+            ))}
+          </div>
         )
       }
     </div>
